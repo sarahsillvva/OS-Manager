@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    /* Layout do Projeto */
+    "rootDir": "./src",                          // Onde está seu código TS
+    "outDir": "./dist",                         // Onde o código JS compilado vai cair
+
+    /* Linguagem e Ambiente */
+    "target": "ES2022",                         // Versão moderna do JS
+    "module": "NodeNext",                       // Suporte nativo a ESM no Node moderno
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],                          // Bibliotecas disponíveis no ambiente
+    
+    /* Necessário para TypeORM e Decorators */
+    "experimentalDecorators": true,             // Permite usar @Entity, @Column
+    "emitDecoratorMetadata": true,              // Permite ao TypeORM ler tipos das propriedades
+
+    /* Rigor e Segurança (Sarah's Standard) */
+    "strict": true,                             // Ativa todas as verificações rígidas
+    "noImplicitAny": true,                      // Não permite 'any' sem declaração
+    "noUncheckedIndexedAccess": true,           // Segurança extra em arrays/objetos
+    "esModuleInterop": true,                    // Melhora compatibilidade com bibliotecas antigas
+    "skipLibCheck": true,                       // Pula verificação de tipos de bibliotecas externas (mais rápido)
+    "forceConsistentCasingInFileNames": true,   // Evita erros entre Windows e Linux
+    
+    /* Outros */
+    "sourceMap": true                           // Ajuda no debug (mostra o código TS no erro)
+  },
+  "include": ["src/**/*"],                      // Compila tudo dentro de src
+  "exclude": ["node_modules", "**/*.spec.ts"]   // Ignora módulos e arquivos de teste
+}
