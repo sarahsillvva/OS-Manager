@@ -3,7 +3,7 @@
     /* Layout do Projeto */
     "rootDir": "./src",                          // Onde está seu código TS
     "outDir": "./dist",                         // Onde o código JS compilado vai cair
-
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
     /* Linguagem e Ambiente */
     "target": "ES2022",                         // Versão moderna do JS
     "module": "NodeNext",                       // Suporte nativo a ESM no Node moderno

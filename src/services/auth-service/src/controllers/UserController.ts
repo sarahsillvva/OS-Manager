@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../config/data-source";
+import { AppDataSource } from "../database/data-source";
 import { User } from "../entities/User";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; // Adicione este import
+import jwt from "jsonwebtoken";
 
 export class UserController {
   async register(req: Request, res: Response) {
