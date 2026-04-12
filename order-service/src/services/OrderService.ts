@@ -6,9 +6,18 @@ export class OrderService {
   async createOrder(data: any) {
     const order = new Order(data);
     await order.save();
+
+    const orderEvent = {
+        orderId: order._id || order.id, // Garante que o ID vá correto
+        equipment: order.equipment,
+        description: order.description,
+        technicianId: order.technicianId,
+        details: order.details,
+        createdAt: order.createdAt,
+    };
     // Publicando o evento 
     await rabbitMQService.start();
-    await rabbitMQService.sendToQueue("orders_queue", JSON.stringify(order));    
+    await rabbitMQService.sendToQueue("orders_queue", JSON.stringify(orderEvent));    
     return order;
 }
 

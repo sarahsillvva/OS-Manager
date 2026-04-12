@@ -1,25 +1,23 @@
 import { Request, Response } from "express";
 import { OrderService } from "../services/OrderService";
-import { rabbitMQService } from "../services/RabbitMQService";
 
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
   create = async (req: Request, res: Response) => {
     try {
-      const { equipment, description, details } = req.body;
+      const { equipment, description, details ,} = req.body;
+      const userEmail = (req as any).user.email; 
       const technicianId = (req as any).user.id;
       console.log(equipment, description, details, technicianId);
       const order = await this.orderService.createOrder({
         equipment,
         description,
         technicianId,
-        details
+        details,
+        userEmail
       });
-      // Após salvar no banco, enviamos para a fila. 
-      // Isso permite que outros serviços (como o de notificações que será implementado) reajam a esse evento
-      // de forma assíncrona, sem travar a resposta para o usuário.
-      await rabbitMQService.sendToQueue("orders_queue", JSON.stringify(order));
+
 
       return res.status(201).json(order);
     } catch (error) {
