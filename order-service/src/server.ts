@@ -13,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 // Configuração do Swagger local
 const swaggerOptions = {
   definition: {
@@ -26,11 +27,19 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(orderRoutes);
 
-const PORT = process.env.PORT_ORDER || 3002;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://admin:password123@localhost:27017/orders_db?authSource=admin";
-
+const PORT = process.env.PORT_ORDER;
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+      console.error("ERRO: A variável MONGO_URI não foi definida no arquivo .env");
+      process.exit(1);
+    }
+    if (!PORT) {
+      console.error("ERRO: A variável PORT_ORDER não foi definida no arquivo .env");
+      process.exit(1);
+    }
 const startServer = async () => {
   try {
+    
     await mongoose.connect(MONGO_URI);
     console.log("MongoDB connected!");
 

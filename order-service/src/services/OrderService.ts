@@ -1,13 +1,11 @@
+import { CreateOrderDTO } from "../dtos/CreateOrderDTO";
 import Order, { IOrder } from "../entities/Order";
 import { rabbitMQService } from "../services/RabbitMQService";
 
 export class OrderService {
 
-  async createOrder(orderData: any , userData: any) {
-    const order = new Order({
-        ...orderData,
-        technicianId: userData.id 
-    });
+  async createOrder(data: CreateOrderDTO) {
+    const order = new Order(data);
     await order.save();
 
     const orderEvent = {
@@ -19,8 +17,6 @@ export class OrderService {
         details: order.details,
         createdAt: order.createdAt,
     };
-    // Publicando o evento 
-    await rabbitMQService.start();
     await rabbitMQService.sendToQueue("orders_queue", JSON.stringify(orderEvent));    
     return order;
 }

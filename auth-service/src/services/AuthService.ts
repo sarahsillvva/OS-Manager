@@ -17,9 +17,13 @@ export class AuthService {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) return null;
 
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error("JWT_SECRET not configured");
+    }
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || "secret_fallback",
+      secret,
       { expiresIn: "1d" }
     );
 
@@ -34,9 +38,12 @@ export class AuthService {
     };
   }
 
-  async createUser(data: any) {
+  async createUser(data: Partial<User>) {
     const { name, email, password, role } = data;
-
+    
+    if (!email || !password || !name) {
+        throw new Error("Missing required fields");
+    }
     const userExists = await this.userRepository.findOneBy({ email });
     if (userExists) throw new Error("User already exists");
 

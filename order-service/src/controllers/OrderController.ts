@@ -6,7 +6,7 @@ export class OrderController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const order = await this.orderService.createOrder(req.body, (req as any).user);
+      const order = await this.orderService.createOrder(req.body);
       return res.status(201).json(order);
     } catch (error) {
       return res.status(500).json({ 

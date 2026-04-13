@@ -13,8 +13,12 @@ app.use(express.json());
 // Rotas do Auth
 app.use("/auth", authRoutes);
 
-const PORT = process.env.PORT_AUTH || 3001;
-
+const PORT = process.env.PORT_AUTH;
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!PORT || !JWT_SECRET) {
+  console.error("ERRO: Verifique se PORT_AUTH e JWT_SECRET estão no seu .env");
+  process.exit(1);
+}
 AppDataSource.initialize()
   .then(() => {
     console.log("🐘 Postgres Connected (Auth Service)!");

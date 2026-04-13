@@ -5,7 +5,11 @@ dotenv.config();
 
 async function consumeMessages() {
   try {
-    const rabbitUrl = process.env.RABBITMQ_URL || "amqp://localhost";
+    const rabbitUrl = process.env.RABBITMQ_URL ;
+    if (!rabbitUrl) {
+        console.error(" ERRO: RABBITMQ_URL não definida no .env do Worker.");
+        process.exit(1);
+    }
     console.log(` [*] Tentando conectar ao RabbitMQ em: ${rabbitUrl}`);
     const connection = await amqp.connect(rabbitUrl);   
     const channel = await connection.createChannel();
