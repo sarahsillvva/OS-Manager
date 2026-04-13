@@ -18,11 +18,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   }
 
   try {
-    // 3. O segredo aqui é usar o 'any' no verify para pular a checagem de sobrecarga do TS
-    // mas mantemos a segurança lógica logo abaixo.
-    const decoded = (jwt.verify as any)(token, secret);
-
-    req.user = decoded;
+    const decoded = jwt.verify(token, secret) as { id: string, email: string, role: string };
+    (req as any).user = decoded;
 
     return next();
   } catch (err) {

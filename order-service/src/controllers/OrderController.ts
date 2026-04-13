@@ -6,19 +6,7 @@ export class OrderController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const { equipment, description, details ,} = req.body;
-      const userEmail = (req as any).user.email; 
-      const technicianId = (req as any).user.id;
-      console.log(equipment, description, details, technicianId);
-      const order = await this.orderService.createOrder({
-        equipment,
-        description,
-        technicianId,
-        details,
-        userEmail
-      });
-
-
+      const order = await this.orderService.createOrder(req.body, (req as any).user);
       return res.status(201).json(order);
     } catch (error) {
       return res.status(500).json({ 

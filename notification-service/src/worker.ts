@@ -27,6 +27,8 @@ async function consumeMessages() {
         console.log(` [x] OS ID: ${orderData.orderId}`);
         console.log(` [x] Equipamento: ${orderData.equipment}`);
         console.log(` [x] Descrição: ${orderData.description}`);
+        console.log(` [x] TecnicoId: ${orderData.technicianId}`);
+        console.log(` [x] Email: ${orderData.userEmail}`);
         console.log(" -----------------------------------------");
         
         // Confirma o processamento (Ack) para o RabbitMQ remover da fila

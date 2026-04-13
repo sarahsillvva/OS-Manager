@@ -3,14 +3,18 @@ import { rabbitMQService } from "../services/RabbitMQService";
 
 export class OrderService {
 
-  async createOrder(data: any) {
-    const order = new Order(data);
+  async createOrder(orderData: any , userData: any) {
+    const order = new Order({
+        ...orderData,
+        technicianId: userData.id 
+    });
     await order.save();
 
     const orderEvent = {
-        orderId: order._id || order.id, // Garante que o ID vá correto
+        orderId: order._id || order.id, 
         equipment: order.equipment,
         description: order.description,
+        userEmail: order.userEmail,
         technicianId: order.technicianId,
         details: order.details,
         createdAt: order.createdAt,
